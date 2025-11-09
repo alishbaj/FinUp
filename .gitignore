@@ -47,6 +47,8 @@ app.*.map.json
 **/google-services.json
 **/GoogleService-Info.plist
 firebase_options.dart
+firebase-admin-key.json
+firebase-config.js
 
 # Environment variables
 .env

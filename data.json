@@ -1,0 +1,169 @@
+{
+  "teams": [],
+  "users": [
+    {
+      "id": "1",
+      "name": "Alice Johnson",
+      "budgetAdherence": 97,
+      "savingProgress": 100,
+      "investmentPerformance": 100,
+      "quizScore": 90,
+      "ingredients": {
+        "savings": 11,
+        "budget": 9,
+        "knowledge": 5,
+        "investment": 9
+      },
+      "activePotions": [
+        {
+          "type": "challenge",
+          "name": "Challenge Potion",
+          "icon": "🛡",
+          "effect": "Reduces penalties and improves budget adherence",
+          "brewedAt": 1762699508080,
+          "expiresAt": 1763304308080
+        }
+      ],
+      "activities": []
+    },
+    {
+      "id": "2",
+      "name": "Bob Smith",
+      "budgetAdherence": 92,
+      "savingProgress": 88,
+      "investmentPerformance": 75,
+      "quizScore": 85,
+      "ingredients": {
+        "savings": 15,
+        "budget": 12,
+        "knowledge": 8,
+        "investment": 10
+      },
+      "activePotions": [],
+      "activities": []
+    },
+    {
+      "id": "3",
+      "name": "Carol Williams",
+      "budgetAdherence": 78,
+      "savingProgress": 65,
+      "investmentPerformance": 70,
+      "quizScore": 80,
+      "ingredients": {
+        "savings": 7,
+        "budget": 6,
+        "knowledge": 4,
+        "investment": 5
+      },
+      "activePotions": [],
+      "activities": []
+    },
+    {
+      "id": "4",
+      "name": "David Brown",
+      "budgetAdherence": 95,
+      "savingProgress": 90,
+      "investmentPerformance": 82,
+      "quizScore": 95,
+      "ingredients": {
+        "savings": 20,
+        "budget": 18,
+        "knowledge": 12,
+        "investment": 15
+      },
+      "activePotions": [],
+      "activities": []
+    },
+    {
+      "id": "5",
+      "name": "Emma Davis",
+      "budgetAdherence": 70,
+      "savingProgress": 60,
+      "investmentPerformance": 65,
+      "quizScore": 75,
+      "ingredients": {
+        "savings": 5,
+        "budget": 4,
+        "knowledge": 3,
+        "investment": 4
+      },
+      "activePotions": [],
+      "activities": []
+    },
+    {
+      "id": "6",
+      "firebaseUid": "RiPAaRSqBFYChSawxpe65XHe8m92",
+      "email": "jondoe@gmail.com",
+      "name": "jondoe",
+      "budgetAdherence": 0,
+      "savingProgress": 0,
+      "investmentPerformance": 0,
+      "quizScore": 0,
+      "ingredients": {
+        "savings": 0,
+        "budget": 0,
+        "knowledge": 0,
+        "investment": 0
+      },
+      "activePotions": [],
+      "activities": []
+    }
+  ],
+  "quizQuestions": [
+    {
+      "id": 1,
+      "question": "What is the recommended percentage of income to save?",
+      "options": [
+        "10%",
+        "20%",
+        "30%",
+        "50%"
+      ],
+      "correct": 1
+    },
+    {
+      "id": 2,
+      "question": "What is compound interest?",
+      "options": [
+        "Interest only on principal",
+        "Interest on principal plus previously earned interest",
+        "Fixed interest rate",
+        "Interest paid monthly"
+      ],
+      "correct": 1
+    },
+    {
+      "id": 3,
+      "question": "What is an emergency fund?",
+      "options": [
+        "Money for vacations",
+        "Savings for unexpected expenses",
+        "Investment portfolio",
+        "Retirement account"
+      ],
+      "correct": 1
+    },
+    {
+      "id": 4,
+      "question": "What does APR stand for?",
+      "options": [
+        "Annual Percentage Rate",
+        "Average Payment Rate",
+        "Annual Principal Return",
+        "Applied Payment Rate"
+      ],
+      "correct": 0
+    },
+    {
+      "id": 5,
+      "question": "What is diversification in investing?",
+      "options": [
+        "Putting all money in one stock",
+        "Spreading investments across different assets",
+        "Investing only in bonds",
+        "Avoiding all investments"
+      ],
+      "correct": 1
+    }
+  ]
+}

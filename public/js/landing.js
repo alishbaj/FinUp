@@ -111,27 +111,127 @@ function showSignup() {
     });
 }
 
-function handleLogin() {
+async function handleLogin() {
     const email = document.getElementById('loginEmail').value;
-    if (email) {
-        alert(`Magic link sent to ${email}! (Demo mode - redirecting to Brew page)`);
-        setTimeout(() => {
-            window.location.href = 'brew.html';
-        }, 1000);
-    } else {
-        alert('Please enter your email');
+    const password = document.getElementById('loginPassword').value;
+    const errorDiv = document.getElementById('loginError');
+    const successDiv = document.getElementById('authSuccess');
+    const btnText = document.getElementById('loginBtnText');
+    const spinner = document.getElementById('loginSpinner');
+    
+    // Hide previous messages
+    errorDiv.style.display = 'none';
+    successDiv.style.display = 'none';
+    
+    // Validate
+    if (!email || !password) {
+        errorDiv.textContent = 'Please enter both email and password';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    // Show loading
+    btnText.textContent = 'Logging in...';
+    spinner.style.display = 'inline-block';
+    
+    try {
+        // Use Firebase signIn function
+        const result = await signIn(email, password);
+        
+        if (result.success) {
+            // Success!
+            successDiv.style.display = 'block';
+            btnText.textContent = 'Login';
+            spinner.style.display = 'none';
+            
+            // Load user data (creates user in backend if first time)
+            await getCurrentUserData();
+            
+            // Redirect to dashboard
+            setTimeout(() => {
+                window.location.href = 'brew.html';
+            }, 1500);
+        } else {
+            // Error
+            errorDiv.textContent = result.error || 'Login failed. Please check your credentials.';
+            errorDiv.style.display = 'block';
+            btnText.textContent = 'Login';
+            spinner.style.display = 'none';
+        }
+    } catch (error) {
+        errorDiv.textContent = 'An error occurred. Please try again.';
+        errorDiv.style.display = 'block';
+        btnText.textContent = 'Login';
+        spinner.style.display = 'none';
+        console.error('Login error:', error);
     }
 }
 
-function handleSignup() {
+async function handleSignup() {
     const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
     const name = document.getElementById('signupName').value;
-    if (email && name) {
-        alert(`Welcome ${name}! Account created. (Demo mode - redirecting to Brew page)`);
-        setTimeout(() => {
-            window.location.href = 'brew.html';
-        }, 1000);
-    } else {
-        alert('Please fill in all fields');
+    const errorDiv = document.getElementById('signupError');
+    const successDiv = document.getElementById('authSuccess');
+    const btnText = document.getElementById('signupBtnText');
+    const spinner = document.getElementById('signupSpinner');
+    
+    // Hide previous messages
+    errorDiv.style.display = 'none';
+    successDiv.style.display = 'none';
+    
+    // Validate
+    if (!email || !password) {
+        errorDiv.textContent = 'Please enter both email and password';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    if (password.length < 6) {
+        errorDiv.textContent = 'Password must be at least 6 characters';
+        errorDiv.style.display = 'block';
+        return;
+    }
+    
+    // Show loading
+    btnText.textContent = 'Creating account...';
+    spinner.style.display = 'inline-block';
+    
+    try {
+        // Use Firebase signUp function
+        const result = await signUp(email, password);
+        
+        if (result.success) {
+            // Success!
+            successDiv.style.display = 'block';
+            btnText.textContent = 'Create Account';
+            spinner.style.display = 'none';
+            
+            // Update name if provided (optional - can be done later)
+            if (name && result.user) {
+                // Name will be set from email by default, but we can update it
+                // This would require an API call to update user name
+            }
+            
+            // Load user data (creates user in backend automatically)
+            await getCurrentUserData();
+            
+            // Redirect to dashboard
+            setTimeout(() => {
+                window.location.href = 'brew.html';
+            }, 1500);
+        } else {
+            // Error
+            errorDiv.textContent = result.error || 'Sign up failed. Please try again.';
+            errorDiv.style.display = 'block';
+            btnText.textContent = 'Create Account';
+            spinner.style.display = 'none';
+        }
+    } catch (error) {
+        errorDiv.textContent = 'An error occurred. Please try again.';
+        errorDiv.style.display = 'block';
+        btnText.textContent = 'Create Account';
+        spinner.style.display = 'none';
+        console.error('Signup error:', error);
     }
 }

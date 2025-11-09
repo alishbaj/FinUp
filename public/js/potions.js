@@ -1,93 +1,50 @@
 // Potions Lab JavaScript
 
+const API_BASE_URL = 'http://localhost:3000/api';
+const CURRENT_USER_ID = '1'; // Default user ID - can be changed based on login
+
 let ingredients = {
-    savings: 10,
-    budget: 8,
-    knowledge: 5,
-    investment: 6
+    savings: 0,
+    budget: 0,
+    knowledge: 0,
+    investment: 0
 };
 
 let activePotions = [];
 
-const potionRecipes = {
-    challenge: {
-        name: 'Challenge Potion',
-        icon: '<span style="color: #667eea; font-size: 1.3em;">🛡</span>',
-        requirements: { savings: 3, budget: 2 },
-        effect: 'Reduces penalties and improves budget adherence',
-        duration: 7 // days
-    },
-    savings: {
-        name: 'Savings Elixir',
-        icon: '<span style="color: #f093fb; font-size: 1.3em;">💎</span>',
-        requirements: { savings: 5, investment: 2 },
-        effect: 'Boosts score multipliers and accelerates savings',
-        duration: 14
-    },
-    subscription: {
-        name: 'Subscription Dissolver',
-        icon: '<span style="color: #764ba2; font-size: 1.3em;">🧹</span>',
-        requirements: { budget: 4, knowledge: 2 },
-        effect: 'AI suggests unused subscriptions to cancel',
-        duration: 30
-    },
-    knowledge: {
-        name: 'Knowledge Boost',
-        icon: '<span style="color: #4facfe; font-size: 1.3em;">🧠</span>',
-        requirements: { knowledge: 5, savings: 2 },
-        effect: 'Unlocks advanced financial literacy modules',
-        duration: 30
-    },
-    investment: {
-        name: 'Investment Catalyst',
-        icon: '<span style="color: #00f2fe; font-size: 1.3em;">📈</span>',
-        requirements: { investment: 4, knowledge: 3 },
-        effect: 'Enhances investment performance insights',
-        duration: 14
-    },
-    budget: {
-        name: 'Budget Stabilizer',
-        icon: '<span style="color: #a78bfa; font-size: 1.3em;">⚖</span>',
-        requirements: { budget: 5, savings: 3 },
-        effect: 'Maintains consistent budget adherence',
-        duration: 7
-    }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
     loadIngredients();
     loadActivePotions();
-    updateInventoryDisplay();
-    displayActivePotions();
 });
 
-function loadIngredients() {
-    const saved = localStorage.getItem('budgetbrew_ingredients');
-    if (saved) {
-        ingredients = JSON.parse(saved);
-    } else {
-        // Initialize with demo values
-        saveIngredients();
+async function loadIngredients() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/user/${CURRENT_USER_ID}/ingredients`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch ingredients');
+        }
+        ingredients = await response.json();
+        updateInventoryDisplay();
+    } catch (error) {
+        console.error('Error loading ingredients:', error);
+        // Keep default values on error
+        updateInventoryDisplay();
     }
 }
 
-function saveIngredients() {
-    localStorage.setItem('budgetbrew_ingredients', JSON.stringify(ingredients));
-}
-
-function loadActivePotions() {
-    const saved = localStorage.getItem('budgetbrew_active_potions');
-    if (saved) {
-        activePotions = JSON.parse(saved);
-        // Remove expired potions
-        const now = Date.now();
-        activePotions = activePotions.filter(potion => potion.expiresAt > now);
-        saveActivePotions();
+async function loadActivePotions() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/user/${CURRENT_USER_ID}/potions`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch potions');
+        }
+        activePotions = await response.json();
+        displayActivePotions();
+    } catch (error) {
+        console.error('Error loading potions:', error);
+        activePotions = [];
+        displayActivePotions();
     }
-}
-
-function saveActivePotions() {
-    localStorage.setItem('budgetbrew_active_potions', JSON.stringify(activePotions));
 }
 
 function updateInventoryDisplay() {
@@ -97,48 +54,41 @@ function updateInventoryDisplay() {
     document.getElementById('investmentIngredient').textContent = ingredients.investment;
 }
 
-function brewPotion(potionType) {
-    const recipe = potionRecipes[potionType];
-    
-    if (!recipe) {
-        alert('Unknown potion type');
-        return;
-    }
-    
-    // Check if user has required ingredients
-    for (const [ingredient, amount] of Object.entries(recipe.requirements)) {
-        if (ingredients[ingredient] < amount) {
-            alert(`Not enough ${ingredient} ingredients! You need ${amount}, but only have ${ingredients[ingredient]}.`);
+async function brewPotion(potionType) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/user/${CURRENT_USER_ID}/potions/brew`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ potionType: potionType })
+        });
+        
+        if (!response.ok) {
+            const error = await response.json();
+            alert(`Failed to brew potion: ${error.error}`);
             return;
         }
+        
+        const result = await response.json();
+        
+        // Update local state
+        ingredients = result.ingredients;
+        activePotions.push(result.potion);
+        
+        updateInventoryDisplay();
+        displayActivePotions();
+        
+        // Show brewing animation
+        showBrewingAnimation(result.potion);
+        
+        // Get duration from potion data
+        const daysLeft = Math.ceil((result.potion.expiresAt - Date.now()) / (24 * 60 * 60 * 1000));
+        alert(`✦ ${result.potion.name} brewed successfully!\n\nEffect: ${result.potion.effect}\nDuration: ${daysLeft} days`);
+    } catch (error) {
+        console.error('Error brewing potion:', error);
+        alert('Failed to brew potion. Please try again.');
     }
-    
-    // Consume ingredients
-    for (const [ingredient, amount] of Object.entries(recipe.requirements)) {
-        ingredients[ingredient] -= amount;
-    }
-    
-    // Create potion
-    const potion = {
-        type: potionType,
-        name: recipe.name,
-        icon: recipe.icon,
-        effect: recipe.effect,
-        brewedAt: Date.now(),
-        expiresAt: Date.now() + (recipe.duration * 24 * 60 * 60 * 1000)
-    };
-    
-    activePotions.push(potion);
-    
-    saveIngredients();
-    saveActivePotions();
-    updateInventoryDisplay();
-    displayActivePotions();
-    
-    // Show brewing animation
-    showBrewingAnimation(potion);
-    
-    alert(`✦ ${recipe.name} brewed successfully!\n\nEffect: ${recipe.effect}\nDuration: ${recipe.duration} days`);
 }
 
 function showBrewingAnimation(potion) {
@@ -191,15 +141,8 @@ function displayActivePotions() {
     });
 }
 
-// Update ingredients based on user activity (called from other pages)
-function addIngredient(type, amount = 1) {
-    if (ingredients[type] !== undefined) {
-        ingredients[type] += amount;
-        saveIngredients();
-        updateInventoryDisplay();
-    }
+// Reload ingredients from server (call this after activities that award ingredients)
+async function refreshIngredients() {
+    await loadIngredients();
 }
-
-// Expose function globally for other pages
-window.addIngredient = addIngredient;
 

@@ -2,6 +2,13 @@
 
 const API_BASE_URL = 'http://localhost:3000/api';
 
+// Auto-refresh user data every 30 seconds to show updated metrics
+setInterval(async () => {
+    if (typeof loadCurrentUserData === 'function') {
+        await loadCurrentUserData();
+    }
+}, 30000);
+
 // Spending categories with colors (for category bubbles display) - themed colors with interesting symbols
 const categories = [
     { name: 'Food', color: '#f093fb', icon: '◉' },
@@ -23,12 +30,46 @@ const spendingCategories = [
     { name: 'Miscellaneous', percent: 5, color: 'rgba(200, 200, 200, 0.7)' }
 ];
 
-document.addEventListener('DOMContentLoaded', () => {
-    // Load default user (ID: 1) with randomized budget score
-    loadUserData('1');
+document.addEventListener('DOMContentLoaded', async () => {
+    // Load current user data
+    await loadCurrentUserData();
     // Randomize cauldron on page load
     randomizeCauldronOnLoad();
 });
+
+// Load current authenticated user's data
+async function loadCurrentUserData() {
+    try {
+        // Try to get authenticated user
+        if (typeof getCurrentUser === 'function' && getCurrentUser()) {
+            // Use authenticated fetch
+            if (typeof getCurrentUserData === 'function') {
+                const userData = await getCurrentUserData();
+                if (userData) {
+                    displayBrewData(userData);
+                    return;
+                }
+            }
+            
+            // Fallback: try /api/user/me endpoint
+            if (typeof authenticatedFetch === 'function') {
+                const response = await authenticatedFetch(`${API_BASE_URL}/user/me`);
+                if (response.ok) {
+                    const userData = await response.json();
+                    displayBrewData(userData);
+                    return;
+                }
+            }
+        }
+        
+        // Fallback to default user (ID: 1)
+        loadUserData('1');
+    } catch (error) {
+        console.error('Error loading current user data:', error);
+        // Fallback to default user
+        loadUserData('1');
+    }
+}
 
 function randomizeCauldronOnLoad() {
     // Generate a random budget score between 20-90%
@@ -230,9 +271,6 @@ function displayBrewData(userData) {
     
     // Generate AI summary
     generateAISummary(userData);
-    
-    // Update goals
-    updateGoals(userData);
 }
 
 function generateCategoryBubbles(userData) {
@@ -303,18 +341,6 @@ function generateAISummary(userData) {
     summary += `\n\n<span style="color: #4facfe;">●</span> This week: Your spending patterns show ${userData.budgetAdherence >= 80 ? 'excellent' : userData.budgetAdherence >= 60 ? 'good' : 'room for improvement'} budget control.`;
     
     container.innerHTML = `<p>${summary}</p>`;
-}
-
-function updateGoals(userData) {
-    // Short term goal (example: save $500)
-    const shortTermProgress = userData.savingProgress;
-    document.getElementById('shortTermFill').style.width = shortTermProgress + '%';
-    document.getElementById('shortTermText').textContent = `Emergency Fund: ${shortTermProgress}% complete`;
-    
-    // Long term goal (example: retirement savings)
-    const longTermProgress = userData.investmentPerformance;
-    document.getElementById('longTermFill').style.width = longTermProgress + '%';
-    document.getElementById('longTermText').textContent = `Retirement Savings: ${longTermProgress}% on track`;
 }
 
 function showCategoryBreakdown(categoryName) {

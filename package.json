@@ -1,0 +1,32 @@
+{
+  "name": "budgetbrew",
+  "version": "1.0.0",
+  "description": "BudgetBrew - A personal finance tracking web application with budgeting, savings tracking, leaderboards, and financial literacy quizzes.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alishbaj/FinUp.git"
+  },
+  "keywords": [
+    "finance",
+    "budgeting",
+    "tracking",
+    "financial-health"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "firebase-admin": "^12.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/alishbaj/FinUp/issues"
+  },
+  "homepage": "https://github.com/alishbaj/FinUp#readme"
+}

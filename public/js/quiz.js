@@ -1,6 +1,7 @@
 // Quiz JavaScript
 
 const API_BASE_URL = 'http://localhost:3000/api';
+const CURRENT_USER_ID = '1'; // Default user ID - can be changed based on login
 let questions = [];
 let userAnswers = {};
 
@@ -65,7 +66,7 @@ function displayQuiz() {
     });
 }
 
-function handleSubmit(e) {
+async function handleSubmit(e) {
     e.preventDefault();
     
     // Collect answers
@@ -76,9 +77,31 @@ function handleSubmit(e) {
         }
     });
     
-    // Calculate score
-    const score = calculateScore();
-    displayResults(score);
+    // Submit to backend
+    try {
+        const response = await fetch(`${API_BASE_URL}/quiz/submit`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: CURRENT_USER_ID,
+                answers: userAnswers
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Failed to submit quiz');
+        }
+        
+        const result = await response.json();
+        displayResults(result.score, result.ingredientsAwarded, result.finScore);
+    } catch (error) {
+        console.error('Error submitting quiz:', error);
+        // Fallback to local calculation
+        const score = calculateScore();
+        displayResults(score, {}, null);
+    }
 }
 
 function calculateScore() {
@@ -93,37 +116,38 @@ function calculateScore() {
     return Math.round((correctAnswers / questions.length) * 100);
 }
 
-function displayResults(score) {
+function displayResults(score, ingredientsAwarded = {}, finScore = null) {
     document.getElementById('quizContainer').style.display = 'none';
     document.getElementById('resultsContainer').style.display = 'block';
     
     document.getElementById('finalScore').textContent = score;
     
     let message = '';
-    let ingredientsEarned = 0;
     
     if (score >= 90) {
-        message = '<span style="color: #f093fb;">★</span> Excellent! You have a strong understanding of financial literacy!';
-        ingredientsEarned = 5;
+        message = '<span style="color: #f093fb;">★</span> Excellent! You have a strong understanding of financial literacy! 🌟';
     } else if (score >= 70) {
-        message = '<span style="color: #667eea;">◉</span> Good job! You have a solid grasp of financial concepts!';
-        ingredientsEarned = 3;
+        message = '<span style="color: #667eea;">◉</span> Good job! You have a solid grasp of financial concepts! 👍';
     } else if (score >= 50) {
-        message = '<span style="color: #764ba2;">●</span> Not bad! Keep learning to improve your financial knowledge!';
-        ingredientsEarned = 2;
+        message = '<span style="color: #764ba2;">●</span> Not bad! Keep learning to improve your financial knowledge! 📚';
     } else {
-        message = '<span style="color: #4facfe;">▲</span> Keep practicing! Financial literacy is a journey.';
-        ingredientsEarned = 1;
+        message = '<span style="color: #4facfe;">▲</span> Keep practicing! Financial literacy is a journey. 💪';
     }
     
-    // Award ingredients
-    if (window.addIngredient) {
-        window.addIngredient('knowledge', ingredientsEarned);
-        message += `\n\n<span style="color: #f093fb;">✦</span> You earned ${ingredientsEarned} Knowledge ingredient${ingredientsEarned > 1 ? 's' : ''}!`;
+    // Show ingredients earned
+    if (Object.keys(ingredientsAwarded).length > 0) {
+        const ingredientList = Object.entries(ingredientsAwarded)
+            .map(([type, amount]) => `${amount} ${type}`)
+            .join(', ');
+        message += `<br><br><span style="color: #f093fb;">✦</span> You earned: ${ingredientList} ingredient${ingredientList.includes(',') ? 's' : ''}!`;
+    }
+    
+    // Show updated FinScore if available
+    if (finScore !== null) {
+        message += `<br><br><span style="color: #667eea;">📊</span> Your FinScore is now: ${finScore.toFixed(2)}%`;
     }
     
     document.getElementById('scoreMessage').innerHTML = message;
-    
 }
 
 function resetQuiz() {

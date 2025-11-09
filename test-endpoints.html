@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Endpoint Tester</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .endpoint {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 3px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>BudgetBrew API Endpoint Tester</h1>
+    <p>Click each button to test the API endpoints. Check the results below.</p>
+
+    <div class="endpoint">
+        <h3>1. Health Check</h3>
+        <button onclick="testEndpoint('/api/health', 'healthResult')">Test Health</button>
+        <div id="healthResult" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>2. Get User Data (ID: 1)</h3>
+        <button onclick="testEndpoint('/api/user/1', 'userResult')">Test Get User</button>
+        <div id="userResult" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>3. Get All Users (Leaderboard)</h3>
+        <button onclick="testEndpoint('/api/users', 'usersResult')">Test Get Users</button>
+        <div id="usersResult" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>4. Get Quiz Questions</h3>
+        <button onclick="testEndpoint('/api/quiz', 'quizResult')">Test Get Quiz</button>
+        <div id="quizResult" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>5. Get User Ingredients</h3>
+        <button onclick="testEndpoint('/api/user/1/ingredients', 'ingredientsResult')">Test Get Ingredients</button>
+        <div id="ingredientsResult" class="result"></div>
+    </div>
+
+    <div class="endpoint">
+        <h3>6. Get User Potions</h3>
+        <button onclick="testEndpoint('/api/user/1/potions', 'potionsResult')">Test Get Potions</button>
+        <div id="potionsResult" class="result"></div>
+    </div>
+
+    <script>
+        async function testEndpoint(url, resultId) {
+            const resultDiv = document.getElementById(resultId);
+            resultDiv.textContent = 'Loading...';
+            resultDiv.className = 'result';
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultDiv.className = 'result success';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.className = 'result error';
+            }
+        }
+    </script>
+</body>
+</html>
+

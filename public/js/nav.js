@@ -3,7 +3,6 @@ function createNavbar(currentPage) {
     const navItems = [
         { name: 'Brew', href: 'brew.html', icon: '<span style="color: #667eea; font-size: 1.3em;">⚗</span>' },
         { name: 'Ingredients', href: 'ingredients.html', icon: '<span style="color: #764ba2; font-size: 1.3em;">⚛</span>' },
-        { name: 'Potions', href: 'potions.html', icon: '<span style="color: #f093fb; font-size: 1.3em;">✦</span>' },
         { name: 'Academy', href: 'academy.html', icon: '<span style="color: #4facfe; font-size: 1.3em;">▣</span>' },
         { name: 'Leaderboard', href: 'leaderboard.html', icon: '<span style="color: #00f2fe; font-size: 1.3em;">◈</span>' }
     ];
@@ -52,8 +51,16 @@ function showAchievements() {
     alert('Achievements panel coming soon!');
 }
 
-function handleLogout() {
+async function handleLogout() {
     if (confirm('Are you sure you want to logout?')) {
+        // Sign out from Firebase if available
+        if (typeof signOut === 'function') {
+            try {
+                await signOut();
+            } catch (error) {
+                console.error('Error signing out:', error);
+            }
+        }
         window.location.href = 'index.html';
     }
 }

@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check if it's an internal page navigation
         if (href.endsWith('.html') || href === '/' || href === 'index.html' || 
             href.includes('brew.html') || href.includes('ingredients.html') || 
-            href.includes('potions.html') || href.includes('academy.html') || 
+            href.includes('academy.html') || 
             href.includes('leaderboard.html') || href.includes('quiz.html')) {
             
             e.preventDefault();
