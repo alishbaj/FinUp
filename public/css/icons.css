@@ -1,0 +1,135 @@
+/* Styled Icon Replacements for Emojis */
+
+.icon-brew::before {
+    content: "⚗";
+    color: #667eea;
+    font-size: 1.2em;
+}
+
+.icon-ingredients::before {
+    content: "🧪";
+    color: #764ba2;
+    font-size: 1.2em;
+}
+
+.icon-potions::before {
+    content: "✨";
+    color: #f093fb;
+    font-size: 1.2em;
+}
+
+.icon-academy::before {
+    content: "📚";
+    color: #4facfe;
+    font-size: 1.2em;
+}
+
+.icon-leaderboard::before {
+    content: "🏆";
+    color: #00f2fe;
+    font-size: 1.2em;
+}
+
+.icon-profile::before {
+    content: "👤";
+    color: #a78bfa;
+    font-size: 1.2em;
+}
+
+.icon-settings::before {
+    content: "⚙";
+    color: #667eea;
+    font-size: 1.2em;
+}
+
+.icon-achievements::before {
+    content: "🏅";
+    color: #f093fb;
+    font-size: 1.2em;
+}
+
+.icon-logout::before {
+    content: "🚪";
+    color: #ff6b6b;
+    font-size: 1.2em;
+}
+
+/* Use colored circles/dots instead of emojis for categories */
+.category-icon {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Sparkle/star icon */
+.icon-sparkle {
+    color: #f093fb;
+    font-size: 1.1em;
+    display: inline-block;
+}
+
+.icon-sparkle::before {
+    content: "✦";
+}
+
+/* AI icon */
+.icon-ai {
+    color: #667eea;
+    font-size: 1.2em;
+}
+
+.icon-ai::before {
+    content: "◉";
+}
+
+/* Goals icon */
+.icon-goals {
+    color: #764ba2;
+    font-size: 1.2em;
+}
+
+.icon-goals::before {
+    content: "◈";
+}
+
+/* Money/currency icon */
+.icon-money {
+    color: #4facfe;
+    font-size: 1.2em;
+}
+
+.icon-money::before {
+    content: "◊";
+}
+
+/* Social icons */
+.icon-send {
+    color: #f093fb;
+    font-size: 1.2em;
+}
+
+.icon-send::before {
+    content: "✧";
+}
+
+.icon-trade {
+    color: #667eea;
+    font-size: 1.2em;
+}
+
+.icon-trade::before {
+    content: "◐";
+}
+
+.icon-cheer {
+    color: #4facfe;
+    font-size: 1.2em;
+}
+
+.icon-cheer::before {
+    content: "◉";
+}
+

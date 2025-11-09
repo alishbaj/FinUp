@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBrew - Ingredients (Transactions)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/icons.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="container mt-5">
+        <h1 class="mb-4 magical-title"><span style="color: #764ba2; font-size: 1.2em;">⚛</span> Ingredient Shelf</h1>
+        <p class="text-muted mb-4">Add expenses as ingredients and let AI categorize them automatically</p>
+
+        <!-- Add Expense Form -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card magical-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Add New Ingredient (Expense)</h5>
+                        <form id="expenseForm">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="expenseAmount" class="form-label">Amount ($)</label>
+                                    <input type="number" class="form-control" id="expenseAmount" step="0.01" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="expenseDescription" class="form-label">Description</label>
+                                    <input type="text" class="form-control" id="expenseDescription" placeholder="e.g., Coffee at Starbucks" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="expenseCategory" class="form-label">Category (Auto-detected)</label>
+                                    <select class="form-select" id="expenseCategory">
+                                        <option value="">AI will categorize...</option>
+                                        <option value="food">Food</option>
+                                        <option value="transport">Transport</option>
+                                        <option value="entertainment">Entertainment</option>
+                                        <option value="shopping">Shopping</option>
+                                        <option value="bills">Bills</option>
+                                        <option value="health">Health</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="isImpulseBuy">
+                                    <label class="form-check-label" for="isImpulseBuy">
+                                        <span style="color: #f093fb; font-size: 1.1em;">⚡</span> Mark as Impulse Buy
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <span style="color: #f093fb; font-size: 1.2em;">✦</span> Add Ingredient
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary ms-2" onclick="analyzeWithAI()">
+                                <span style="color: #667eea; font-size: 1.2em;">◉</span> Analyze with AI
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ingredient Shelf Display -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h3 class="mb-3">Your Ingredient Collection</h3>
+                <div class="ingredient-shelf" id="ingredientShelf">
+                    <!-- Ingredients will be displayed here -->
+                    <div class="text-center text-muted py-5">
+                        <p>No ingredients yet. Add your first expense above!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Transactions Table -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-3">Recent Transactions</h3>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Type</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTable">
+                            <!-- Transactions will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/loading.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/ingredients.js"></script>
+    <script>
+        document.getElementById('navbar-container').innerHTML = createNavbar('ingredients');
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 BudgetBrew. All rights reserved.</p>
+            <p>Brew your way to financial freedom with Poyo!</p>
+            <p><small>Made with ✨ magic and 💰 financial wisdom</small></p>
+        </div>
+    </footer>
+</body>
+</html>
+

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBrew - Brew Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/icons.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="container mt-5">
+        <h1 class="mb-4 magical-title"><span style="color: #667eea; font-size: 1.2em;">⚗</span> Your Brew Cauldron</h1>
+
+        <!-- Main Cauldron Display -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="cauldron-dashboard">
+                    <div class="cauldron-landing" id="mainCauldron">
+                        <div class="cauldron-liquid-landing" id="mainCauldronLiquid"></div>
+                        <div class="category-bubbles-container" id="categoryBubblesContainer">
+                            <!-- Category bubbles will be generated here -->
+                        </div>
+                        <div class="sparks-landing" id="sparksContainer">
+                            <!-- Sparks will be generated based on budget score -->
+                        </div>
+                        <div class="potion-stability-display">
+                            <div class="stability-label">Potion Stability</div>
+                            <div class="stability-score" id="potionStability">--</div>
+                            <div class="stability-bar">
+                                <div class="stability-fill" id="stabilityFill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cauldron-info mt-3">
+                        <h4 id="cauldronTitle">Your Budget Cauldron</h4>
+                        <p class="text-muted" id="cauldronDescription">Calculating your budget score...</p>
+                        <div class="budget-score-display mt-2">
+                            <span class="budget-score-value" id="budgetScoreValue">--</span>
+                            <span class="budget-score-label">% Budget Score</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Spending Category Bubbles -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h3 class="mb-3"><span style="color: #4facfe; font-size: 1.2em;">◊</span> Spending Categories</h3>
+                <div class="category-bubbles" id="categoryBubbles">
+                    <!-- Bubbles will be generated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly AI Summary -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card magical-card ai-summary-card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <span style="color: #667eea; font-size: 1.3em;">◉</span> Weekly AI Summary
+                        </h5>
+                        <div class="ai-summary-content" id="aiSummary">
+                            <p class="text-muted">Loading your financial insights...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goals & Progress Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h3 class="mb-3"><span style="color: #764ba2; font-size: 1.2em;">◈</span> Goals & Progress</h3>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card magical-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Short Term Goals</h5>
+                        <div class="crystal-growth" id="shortTermCrystal">
+                            <div class="crystal-bar">
+                                <div class="crystal-fill" id="shortTermFill" style="width: 0%"></div>
+                            </div>
+                            <p class="mt-2 mb-0"><small id="shortTermText">No active short-term goals</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card magical-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Long Term Savings</h5>
+                        <div class="crystal-growth" id="longTermCrystal">
+                            <div class="crystal-bar">
+                                <div class="crystal-fill" id="longTermFill" style="width: 0%"></div>
+                            </div>
+                            <p class="mt-2 mb-0"><small id="longTermText">No active long-term goals</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Metrics Cards -->
+        <div class="row">
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Budget Adherence</h5>
+                        <div class="metric-value" id="budgetAdherence">--</div>
+                        <div class="progress mt-2">
+                            <div class="progress-bar" role="progressbar" id="budgetProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Saving Progress</h5>
+                        <div class="metric-value" id="savingProgress">--</div>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-success" role="progressbar" id="savingProgressBar" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Investment Performance</h5>
+                        <div class="metric-value" id="investmentPerformance">--</div>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-info" role="progressbar" id="investmentProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card metric-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Quiz Score</h5>
+                        <div class="metric-value" id="quizScore">--</div>
+                        <div class="progress mt-2">
+                            <div class="progress-bar bg-warning" role="progressbar" id="quizProgress" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/loading.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/brew.js"></script>
+    <script>
+        document.getElementById('navbar-container').innerHTML = createNavbar('brew');
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 BudgetBrew. All rights reserved.</p>
+            <p>Brew your way to financial freedom with Poyo!</p>
+            <p><small>Made with ✨ magic and 💰 financial wisdom</small></p>
+        </div>
+    </footer>
+</body>
+</html>
+

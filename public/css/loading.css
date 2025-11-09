@@ -1,0 +1,96 @@
+/* Loading Screen Animation */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e8e3f5 0%, #f0e8f5 100%);
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.loading-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.loading-animation-container {
+    text-align: center;
+}
+
+.bubble-pop-animation {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    animation: bubblePopFrames 0.8s steps(5) infinite;
+}
+
+@keyframes bubblePopFrames {
+    0% {
+        background-image: url('/images/loading/bubble-frame-1.png');
+    }
+    20% {
+        background-image: url('/images/loading/bubble-frame-2.png');
+    }
+    40% {
+        background-image: url('/images/loading/bubble-frame-3.png');
+    }
+    60% {
+        background-image: url('/images/loading/bubble-frame-4.png');
+    }
+    80% {
+        background-image: url('/images/loading/bubble-frame-5.png');
+    }
+    100% {
+        background-image: url('/images/loading/bubble-frame-6.png');
+    }
+}
+
+/* If you have 5 frames instead of 6, use this version: */
+/*
+@keyframes bubblePopFrames {
+    0% {
+        background-image: url('/images/loading/bubble-frame-1.png');
+    }
+    25% {
+        background-image: url('/images/loading/bubble-frame-2.png');
+    }
+    50% {
+        background-image: url('/images/loading/bubble-frame-3.png');
+    }
+    75% {
+        background-image: url('/images/loading/bubble-frame-4.png');
+    }
+    100% {
+        background-image: url('/images/loading/bubble-frame-5.png');
+    }
+}
+*/
+
+.loading-text {
+    color: #764ba2;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+

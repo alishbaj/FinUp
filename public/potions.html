@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BudgetBrew - Potion Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/icons.css">
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="container mt-5">
+        <h1 class="mb-4 magical-title"><span style="color: #f093fb; font-size: 1.2em;">⚗</span> Potion Lab</h1>
+        <p class="text-muted mb-4">Brew potions using earned ingredients to boost your financial health</p>
+
+        <!-- Available Ingredients -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card magical-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Your Ingredient Inventory</h5>
+                        <div class="ingredient-inventory" id="ingredientInventory">
+                            <div class="inventory-item">
+                                <span class="inventory-icon" style="color: #4facfe; font-size: 1.5em;">◊</span>
+                                <span class="inventory-count" id="savingsIngredient">0</span>
+                                <span class="inventory-label">Savings</span>
+                            </div>
+                            <div class="inventory-item">
+                                <span class="inventory-icon" style="color: #667eea; font-size: 1.5em;">◈</span>
+                                <span class="inventory-count" id="budgetIngredient">0</span>
+                                <span class="inventory-label">Budget Control</span>
+                            </div>
+                            <div class="inventory-item">
+                                <span class="inventory-icon" style="color: #764ba2; font-size: 1.5em;">▣</span>
+                                <span class="inventory-count" id="knowledgeIngredient">0</span>
+                                <span class="inventory-label">Knowledge</span>
+                            </div>
+                            <div class="inventory-item">
+                                <span class="inventory-icon" style="color: #f093fb; font-size: 1.5em;">◊</span>
+                                <span class="inventory-count" id="investmentIngredient">0</span>
+                                <span class="inventory-label">Investment</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Potion Recipes -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h3 class="mb-3">Available Potions</h3>
+            </div>
+            
+            <!-- Challenge Potion -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card magical-card potion-card">
+                    <div class="card-body">
+                        <div class="potion-icon" style="color: #667eea; font-size: 3rem;">🛡</div>
+                        <h5 class="card-title">Challenge Potion</h5>
+                        <p class="card-text">Reduce penalties and improve budget adherence</p>
+                        <div class="potion-requirements">
+                            <small class="text-muted">Requires:</small>
+                            <ul class="requirement-list">
+                                <li><span style="color: #4facfe; font-size: 1.1em;">◊</span> Savings x3</li>
+                                <li><span style="color: #667eea; font-size: 1.1em;">◈</span> Budget Control x2</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="brewPotion('challenge')">
+                            <span style="color: #f093fb; font-size: 1.1em;">✦</span> Brew Potion
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Savings Elixir -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card magical-card potion-card">
+                    <div class="card-body">
+                        <div class="potion-icon" style="color: #f093fb; font-size: 3rem;">💎</div>
+                        <h5 class="card-title">Savings Elixir</h5>
+                        <p class="card-text">Boost score multipliers and accelerate savings</p>
+                        <div class="potion-requirements">
+                            <small class="text-muted">Requires:</small>
+                            <ul class="requirement-list">
+                                <li><span style="color: #4facfe; font-size: 1.1em;">◊</span> Savings x5</li>
+                                <li><span style="color: #f093fb; font-size: 1.1em;">◊</span> Investment x2</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="brewPotion('savings')">
+                            <span style="color: #f093fb; font-size: 1.1em;">✦</span> Brew Potion
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subscription Dissolver -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card magical-card potion-card">
+                    <div class="card-body">
+                        <div class="potion-icon" style="color: #764ba2; font-size: 3rem;">🧹</div>
+                        <h5 class="card-title">Subscription Dissolver</h5>
+                        <p class="card-text">Get AI suggestions to cancel unused subscriptions</p>
+                        <div class="potion-requirements">
+                            <small class="text-muted">Requires:</small>
+                            <ul class="requirement-list">
+                                <li><span style="color: #667eea; font-size: 1.1em;">◈</span> Budget Control x4</li>
+                                <li><span style="color: #764ba2; font-size: 1.1em;">▣</span> Knowledge x2</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="brewPotion('subscription')">
+                            <span style="color: #f093fb; font-size: 1.1em;">✦</span> Brew Potion
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knowledge Boost -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card magical-card potion-card">
+                    <div class="card-body">
+                        <div class="potion-icon" style="color: #4facfe; font-size: 3rem;">🧠</div>
+                        <h5 class="card-title">Knowledge Boost</h5>
+                        <p class="card-text">Unlock advanced financial literacy modules</p>
+                        <div class="potion-requirements">
+                            <small class="text-muted">Requires:</small>
+                            <ul class="requirement-list">
+                                <li><span style="color: #764ba2; font-size: 1.1em;">▣</span> Knowledge x5</li>
+                                <li><span style="color: #4facfe; font-size: 1.1em;">◊</span> Savings x2</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="brewPotion('knowledge')">
+                            <span style="color: #f093fb; font-size: 1.1em;">✦</span> Brew Potion
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment Catalyst -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card magical-card potion-card">
+                    <div class="card-body">
+                        <div class="potion-icon" style="color: #00f2fe; font-size: 3rem;">📈</div>
+                        <h5 class="card-title">Investment Catalyst</h5>
+                        <p class="card-text">Enhance investment performance insights</p>
+                        <div class="potion-requirements">
+                            <small class="text-muted">Requires:</small>
+                            <ul class="requirement-list">
+                                <li><span style="color: #f093fb; font-size: 1.1em;">◊</span> Investment x4</li>
+                                <li><span style="color: #764ba2; font-size: 1.1em;">▣</span> Knowledge x3</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="brewPotion('investment')">
+                            <span style="color: #f093fb; font-size: 1.1em;">✦</span> Brew Potion
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget Stabilizer -->
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card magical-card potion-card">
+                    <div class="card-body">
+                        <div class="potion-icon" style="color: #a78bfa; font-size: 3rem;">⚖</div>
+                        <h5 class="card-title">Budget Stabilizer</h5>
+                        <p class="card-text">Maintain consistent budget adherence</p>
+                        <div class="potion-requirements">
+                            <small class="text-muted">Requires:</small>
+                            <ul class="requirement-list">
+                                <li><span style="color: #667eea; font-size: 1.1em;">◈</span> Budget Control x5</li>
+                                <li><span style="color: #4facfe; font-size: 1.1em;">◊</span> Savings x3</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-primary btn-sm" onclick="brewPotion('budget')">
+                            <span style="color: #f093fb; font-size: 1.1em;">✦</span> Brew Potion
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Potions -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-3">Active Potions</h3>
+                <div class="active-potions" id="activePotions">
+                    <div class="text-center text-muted py-3">
+                        <p>No active potions. Brew one to get started!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/loading.js"></script>
+    <script src="js/nav.js"></script>
+    <script src="js/potions.js"></script>
+    <script>
+        document.getElementById('navbar-container').innerHTML = createNavbar('potions');
+    </script>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2024 BudgetBrew. All rights reserved.</p>
+            <p>Brew your way to financial freedom with Poyo!</p>
+            <p><small>Made with ✨ magic and 💰 financial wisdom</small></p>
+        </div>
+    </footer>
+</body>
+</html>
+
