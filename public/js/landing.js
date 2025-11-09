@@ -3,6 +3,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     startBrewAnimation();
     startFeaturePanels();
+    initHeroParallax();
+    enhanceHoverAnimations();
 });
 
 let currentPanel = 0;
@@ -134,4 +136,47 @@ function handleSignup() {
     } else {
         alert('Please fill in all fields');
     }
+}
+
+function initHeroParallax() {
+    const hero = document.querySelector('.landing-container');
+    if (!hero) return;
+
+    const targets = hero.querySelectorAll('.landing-title, .landing-subtitle, .landing-description, .feature-panels-container, .cauldron-preview, .auth-card');
+    if (!targets.length) return;
+
+    targets.forEach((element) => {
+        element.classList.add('parallax-target');
+    });
+
+    hero.addEventListener('mousemove', (event) => {
+        const rect = hero.getBoundingClientRect();
+        const offsetX = ((event.clientX - rect.left) / rect.width) - 0.5;
+        const offsetY = ((event.clientY - rect.top) / rect.height) - 0.5;
+
+        targets.forEach((element, index) => {
+            const depth = (index + 1) / (targets.length + 2);
+            const translateX = offsetX * depth * 24;
+            const translateY = offsetY * depth * 18;
+            element.style.transform = `translate3d(${translateX}px, ${translateY}px, 0) scale3d(1.01, 1.01, 1)`;
+        });
+    });
+
+    hero.addEventListener('mouseleave', () => {
+        targets.forEach((element) => {
+            element.style.transform = 'translate3d(0, 0, 0) scale3d(1, 1, 1)';
+        });
+    });
+}
+
+function enhanceHoverAnimations() {
+    const hoverables = document.querySelectorAll('.category-bubble, .magical-card, .feature-panel, .coach-card, .recap-card');
+    hoverables.forEach((element) => {
+        element.addEventListener('mouseenter', () => {
+            element.classList.add('hover-active');
+        });
+        element.addEventListener('mouseleave', () => {
+            element.classList.remove('hover-active');
+        });
+    });
 }

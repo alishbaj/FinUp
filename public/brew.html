@@ -107,6 +107,49 @@
             </div>
         </div>
 
+        <!-- Smart Coach & Recap -->
+        <div class="row mb-5 gy-4 align-items-stretch">
+            <div class="col-lg-7">
+                <div class="card magical-card coach-card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 class="card-title mb-0"><span style="color: #f093fb; font-size: 1.3em;">✨</span> Smart Coach Scenario</h5>
+                            <button class="btn btn-sm btn-outline-primary glassy-button" id="refreshScenarioBtn">New Scenario</button>
+                        </div>
+                        <p class="text-muted mb-3" id="scenarioPrompt">Loading a challenge tailored to your latest brew...</p>
+                        <div class="coach-choices" id="scenarioChoices"></div>
+                        <div class="coach-feedback mt-4" id="scenarioFeedback" aria-live="polite"></div>
+                        <div class="coach-progress mt-auto pt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-uppercase text-muted d-block">Momentum Boost</small>
+                                    <span class="badge rounded-pill momentum-badge" id="scenarioMomentum">-- pts</span>
+                                </div>
+                                <button class="btn btn-primary btn-sm glassy-button" id="commitMicroGoalBtn">Commit to Goal</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="card magical-card recap-card h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title"><span style="color: #4facfe; font-size: 1.3em;">🪄</span> Monthly Recap</h5>
+                        <p class="text-muted" id="monthlyRecapHighlight">Synthesizing your recent performance...</p>
+                        <hr>
+                        <h6 class="text-uppercase text-muted mb-3">Micro Goals</h6>
+                        <ul class="list-unstyled micro-goal-list flex-grow-1" id="microGoalList">
+                            <li class="text-muted">Weaving short-term goals to match your brew...</li>
+                        </ul>
+                        <div class="mt-3">
+                            <small class="text-uppercase text-muted d-block">Next Check-in</small>
+                            <span class="next-checkin-chip" id="nextCheckIn">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Metrics Cards -->
         <div class="row">
             <div class="col-md-6 col-lg-3 mb-4">

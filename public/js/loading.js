@@ -1,6 +1,7 @@
 // Loading Screen Manager
 
 let isLoading = false;
+let revealObserver = null;
 
 // Initialize loading screen HTML
 function initLoadingScreen() {
@@ -54,6 +55,7 @@ function navigateWithLoading(url) {
 // Intercept all navigation links
 document.addEventListener('DOMContentLoaded', () => {
     initLoadingScreen();
+    initScrollReveals();
     
     // Intercept all internal navigation links
     document.addEventListener('click', (e) => {
@@ -101,4 +103,47 @@ document.addEventListener('DOMContentLoaded', () => {
 if (document.readyState === 'loading') {
     showLoading();
 }
+
+function initScrollReveals() {
+    const observer = ensureRevealObserver();
+    if (!observer) return;
+
+    const candidates = document.querySelectorAll('[data-reveal], .magical-card, .feature-panel, .cauldron-dashboard, .category-bubble, .coach-card, .recap-card');
+    candidates.forEach((element) => {
+        registerRevealElement(element);
+    });
+}
+
+function registerRevealElement(element) {
+    const observer = ensureRevealObserver();
+    if (!element || !('classList' in element) || !observer) return;
+
+    if (!element.classList.contains('reveal-on-scroll')) {
+        element.classList.add('reveal-on-scroll');
+    }
+    observer.observe(element);
+}
+
+function ensureRevealObserver() {
+    if (!('IntersectionObserver' in window)) return null;
+
+    if (!revealObserver) {
+        revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -10% 0px'
+        });
+    }
+
+    return revealObserver;
+}
+
+window.registerRevealElement = registerRevealElement;
+window.refreshScrollReveal = initScrollReveals;
 
