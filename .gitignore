@@ -55,3 +55,7 @@ firebase_options.dart
 # OS files
 Thumbs.db
 
+# Node.js
+node_modules/
+package-lock.json
+
